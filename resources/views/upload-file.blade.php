@@ -136,40 +136,82 @@
         </div>
     </header>
 
-    <main>
-        {{-- ===== HERO ===== --}}
+   {{-- ===== UPDATED UPLOAD SECTION ===== --}}
+<div class="max-w-2xl mx-auto mt-32 px-6">
+    <div class="bg-stone-900/50 border border-stone-800 rounded-2xl p-8 backdrop-blur-sm relative overflow-hidden">
+        
+        <!-- Decorative Grid Background (matching hero) -->
+        <div class="absolute inset-0 hero-grid opacity-20 pointer-events-none"></div>
 
-        <div class="max-w-xl mx-auto mt-32 p-6 bg-stone-900 border border-stone-800 rounded-xl">
+        <div class="relative z-10">
+            <div class="flex flex-col items-center text-center mb-8">
+                <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-serif text-stone-100 italic">Upload Source Assets</h2>
+                <p class="text-stone-400 text-sm mt-1">Upload files to S3 for prompt context and optimization.</p>
+            </div>
 
-    <h2 class="text-lg font-semibold mb-4">Upload File to S3</h2>
+            <form method="POST" action="{{ route('upload.file') }}" enctype="multipart/form-data" class="space-y-6">
+                @csrf
+                
+                <div class="group relative border-2 border-dashed border-stone-700 hover:border-amber-500/50 transition-colors rounded-xl p-10 flex flex-col items-center justify-center bg-stone-950/40">
+                    <input type="file" name="file" id="file-upload" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required onchange="updateFileName(this)">
+                    
+                    <div id="upload-placeholder" class="text-center">
+                        <p class="text-sm font-medium text-stone-300">Click to upload or drag and drop</p>
+                        <p class="text-xs text-stone-500 mt-1 uppercase tracking-widest">PDF, TXT, JSON, OR CSV (MAX. 10MB)</p>
+                    </div>
 
-    <form method="POST" action="{{ route('upload.file') }}" enctype="multipart/form-data">
-        @csrf
+                    <!-- Selected File State (Hidden by default) -->
+                    <div id="file-selected" class="hidden flex items-center gap-3 bg-stone-800/50 px-4 py-2 rounded-lg border border-stone-700">
+                        <svg class="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span id="file-name" class="text-sm font-mono text-stone-200">No file selected</span>
+                    </div>
+                </div>
 
-        <input type="file" name="file"
-            class="block w-full text-sm text-stone-300 mb-4
-            file:mr-4 file:py-2 file:px-4
-            file:rounded file:border-0
-            file:text-sm file:font-semibold
-            file:bg-amber-500 file:text-stone-900
-            hover:file:bg-amber-400" required>
+                <button type="submit"
+                    class="w-full bg-amber-500 hover:bg-amber-400 text-stone-950 font-semibold py-3 rounded-lg transition-all transform active:scale-[0.98] flex items-center justify-center gap-2">
+                    <span>Finalize Upload</span>
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </button>
+            </form>
 
-        <button type="submit"
-            class="bg-amber-500 hover:bg-amber-400 text-stone-950 px-4 py-2 rounded">
-            Upload
-        </button>
-    </form>
-
-    @if(session('url'))
-        <div class="mt-4 text-green-400">
-            File uploaded:
-            <a href="{{ session('url') }}" target="_blank" class="underline">View File</a>
+            @if(session('url'))
+                <div class="mt-6 animate-slide-up bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-lg flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                        <span class="text-sm text-emerald-400 font-medium">Successfully uploaded</span>
+                    </div>
+                    <a href="{{ session('url') }}" target="_blank" class="text-xs font-bold text-emerald-400 underline underline-offset-4 hover:text-emerald-300 transition-colors uppercase tracking-widest">
+                        View Asset
+                    </a>
+                </div>
+            @endif
         </div>
-    @endif
-
+    </div>
 </div>
-      
-    </main>
+
+{{-- ===== SCRIPTS FOR UI INTERACTION ===== --}}
+<script>
+    function updateFileName(input) {
+        const placeholder = document.getElementById('upload-placeholder');
+        const selectedState = document.getElementById('file-selected');
+        const nameDisplay = document.getElementById('file-name');
+
+        if (input.files && input.files.length > 0) {
+            placeholder.classList.add('hidden');
+            selectedState.classList.remove('hidden');
+            nameDisplay.textContent = input.files[0].name;
+        }
+    }
+</script>
 
     {{-- ===== FOOTER ===== --}}
     <footer class="border-t border-stone-800/60 py-8">
