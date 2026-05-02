@@ -115,7 +115,7 @@
     {{-- ===== NAVBAR ===== --}}
     <header class="fixed top-0 left-0 right-0 z-50 border-b border-stone-800/60 bg-stone-950/80 backdrop-blur-md">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-2.5">
+            <a href="/" class="flex items-center gap-2.5">
                 <div class="w-7 h-7 rounded-md bg-amber-500 flex items-center justify-center flex-shrink-0">
                     <svg class="w-4 h-4 text-stone-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
